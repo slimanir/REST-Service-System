@@ -14,7 +14,9 @@ def set_repo():
         repo_path = './repo'
         repo = clone_repository(repo_url, repo_path)
     return repo
+
 ##### Code complexity calculation ###
+
 def compute_complexity(source):
     result =[]
     blocks = cc_visit(source)
@@ -23,6 +25,19 @@ def compute_complexity(source):
     for func in blocks:
         result.append(func.name+"- CC Rank:"+cc_rank(func.complexity))
     return result
+
+##### Get all python files in the repository tree and store in sources list ####
+
+def get_data(tree, repo):
+    sources = []
+    for entry in tree:
+        if ".py" in entry.name:
+            sources.append(entry)
+        if "." not in entry.name:
+           if entry.type == 'tree':
+                new_tree = repo.get(entry.id)
+                sources += (get_data(new_tree, repo))
+    return sources
 
 ##### Exctract files and store them in the list of files 
 
