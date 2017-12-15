@@ -10,3 +10,8 @@ This is my  implementation for CS7NS1 module
 °Flask : Rest API
 °Radon : Mccabe complexity calculator
 °pygit2 : Git API that permits walking through Github repositories and commits
+
+
+° How to run : 
+run Server.py 
+run Worker.py
