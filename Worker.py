@@ -4,13 +4,11 @@ from pygit2 import Repository, clone_repository
 import requests, json
 
 
-FLASK_SERVER_NAME = 'https://api.github.com/repos/slimanir/REST-Service-System'
-
 def set_repo():
     try:
         repo = Repository('./repo')
     except:
-        repo_url = 'FLASK_SERVER_NAME'
+        repo_url = 'https://github.com/libgit2/pygit2'
         repo_path = './repo'
         repo = clone_repository(repo_url, repo_path)
     return repo
@@ -50,7 +48,7 @@ def extract_files(sources):
 ##### Get the tasks/work from the master/server ###
 
 def get_work(repo):
-    response = requests.get('localhost:8000/work', params={'key': 'value'})
+    response = requests.get('http://127.0.0.1:5000/work', params={'key': 'value'})
     response.encoding = 'utf-8'
     json_file = response.json()
     tree = repo.get(json_file['commit']).tree
@@ -66,10 +64,12 @@ def do_work(work):
     for file in work:
         results.append(compute_complexity(file))
     return results
+
 ##### Post results
+
 def send_results(result):
     result = {'Result' : result}
-    post = requests.post('localhost:8000/results', json=result)
+    post = requests.post('http://127.0.0.1:5000/results', json=result)
 
 if __name__ == '__main__':    
         repo = set_repo()
